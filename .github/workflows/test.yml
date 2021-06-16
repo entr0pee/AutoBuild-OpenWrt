@@ -96,7 +96,7 @@ jobs:
     - name: 🔱 Check Point - 3
       run: echo "Customization Accomplished."    
     
-    - name: 5️⃣ Download Package
+    - name: 5️⃣ Download Packages
       working-directory: ./openwrt
       run: |
         make download -j$(nproc)

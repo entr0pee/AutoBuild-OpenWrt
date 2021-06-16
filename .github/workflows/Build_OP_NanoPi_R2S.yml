@@ -10,7 +10,14 @@ name: Build_NanoPi_R2S
 on: 
   release:
     types: [published]
-on: [workflow_dispatch]
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'  
   
   push:
     branches: 

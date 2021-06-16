@@ -25,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    
+    - name: 🌈 Starting Point 🚩
     - run: |
         echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
         echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -33,7 +35,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
 
-    - name: Initialization environment
+    - name: 1️⃣ Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
@@ -61,7 +63,7 @@ jobs:
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
         
-    - name: Clone source code
+    - name: 2️⃣ Clone source code
       env: 
         REPO_URL: https://github.com/coolsnowwolf/lede
         REPO_BRANCH: master
@@ -69,30 +71,42 @@ jobs:
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
         echo "src-git ssrp https://github.com/fw876/helloworld.git" >> ./feeds.conf.default
-        echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
         
-    - name: Update & Install feeds
+    - name: 💡 Check Point - 1
+      run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+        
+    - name: 3️⃣ Update & Install feeds
       working-directory: ./openwrt
       run: |
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-        echo "🖥️ The workflow is now ready to compile on the runner."
-        
-    - name: Configuration Customization - Build_Newifi_D2
+        ./scripts/feeds install -a
+
+    - name: 🌟 Check Point - 2
+      run: echo "The framework codes are now prepared and ready for customization."    
+
+    - name: 4️⃣ Configuration Customization - Build_Newifi_D2
       env:
         CONFIG_FILE: 'Newifi_D2.config'
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
         cd openwrt && make defconfig
-        
-    - name: Download package
+
+    - name: ⚓ Check Point - 3
+      run: echo "Customization Accomplished."    
+    
+    - name: 5️⃣ Download package
       working-directory: ./openwrt
       run: |
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-    - name: Build firmware
+    
+    - name: ☕ Check Point - 4
+      run: echo "The source codes have been downloaded and ready for compilation."    
+      
+    - name: 6️⃣ Build firmware
       working-directory: ./openwrt
       run: |
         echo -e "$(nproc) thread build."
@@ -102,3 +116,5 @@ jobs:
       with:
         name: OpenWrt
         path: openwrt/bin
+        
+    - run: echo "✌️ This job's status is ${{ job.status }}."

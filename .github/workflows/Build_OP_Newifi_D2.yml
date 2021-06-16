@@ -11,7 +11,16 @@ on:
   release:
     types: [published]
   workflow_dispatch:
-  repository_dispatch:
+    inputs:
+      name:
+        description: 'Person to greet'
+        required: true
+        default: 'Mona the Octocat'
+      home:
+        description: 'location'
+        required: false
+        default: 'The Octoverse'
+
   #push:
   #  branches: 
   #    - master

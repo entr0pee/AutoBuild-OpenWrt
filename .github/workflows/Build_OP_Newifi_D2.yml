@@ -7,8 +7,11 @@
 
 name: Build_Newifi_D2
 
-on: [published, workflow_dispatch]
-
+on: 
+  release:
+    types: [published]
+  workflow_dispatch:
+  repository_dispatch:
   #push:
   #  branches: 
   #    - master
@@ -21,9 +24,13 @@ on: [published, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      
     - name: Checkout
       uses: actions/checkout@master
 

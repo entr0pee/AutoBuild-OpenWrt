@@ -8,8 +8,9 @@
 name: Build_NanoPi_R2S
 
 on: 
-  published:
   workflow_dispatch:
+  release:
+    types: [published]
 
 #push:
 #    branches: 

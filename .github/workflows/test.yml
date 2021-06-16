@@ -73,7 +73,7 @@ jobs:
         echo "src-git ssrp https://github.com/fw876/helloworld.git" >> ./feeds.conf.default
         
     - name: 💡 Check Point - 1
-      run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+      run: echo "The [coolsnowwolf/lede] repository has been cloned to the runner."
         
     - name: 3️⃣ Update & Install Feeds
       working-directory: ./openwrt

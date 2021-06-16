@@ -119,4 +119,4 @@ jobs:
         path: openwrt/bin
     
     - name: ✌️ Finale
-    - run: echo "This job's status is ${{ job.status }}."
+      run: echo "This job's status is ${{ job.status }}."

@@ -9,6 +9,8 @@
 name: Sync Code from eSir Autobuild Script
 
 on:
+  workflow_dispatch:
+
 #  push:
 #    branches: 
 #      - master

@@ -85,7 +85,7 @@ jobs:
     - name: 🌟 Check Point - 2
       run: echo "The framework codes are now prepared and ready for customization."    
 
-    - name: 4️⃣ Configuration Customization - Build_Newifi_D2
+    - name: 4️⃣ Customize Configuration
       env:
         CONFIG_FILE: 'Newifi_D2.config'
       run: |
@@ -106,7 +106,7 @@ jobs:
     - name: 🚧 Check Point - 4
       run: echo "The source codes have been downloaded and ready for compilation."    
       
-    - name: 6️⃣ Build firmware
+    - name: 6️⃣ Build firmware - Build_Newifi_D2
       working-directory: ./openwrt
       run: |
         echo -e "$(nproc) thread build."

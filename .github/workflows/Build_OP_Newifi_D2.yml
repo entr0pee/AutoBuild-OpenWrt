@@ -108,9 +108,23 @@ jobs:
       run: |
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
-  
-    - name : Upload Artifact
-      uses: actions/upload-artifact@master
+
+  Upload:
+    needs: [build]
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name : 🚀 Upload Artifact - Firemware
+      uses: actions/upload-artifact@v2
+      with:
+        name: OpenWrt-Firmware
+        path: openwrt/bin/targets/ramips/mt7621/*.bin
+
+    - name : 🚀 Upload Artifact - Fullpack(all ipk)
+      uses: actions/upload-artifact@v2
       with:
         name: OpenWrt-Fullpack
         path: openwrt/bin

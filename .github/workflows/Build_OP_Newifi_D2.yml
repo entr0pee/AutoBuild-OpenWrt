@@ -109,14 +109,6 @@ jobs:
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
 
-  Upload:
-    needs: [Build]
-    runs-on: ubuntu-18.04
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@main
-
     - name : 🚀 Upload Artifact - Firemware
       uses: actions/upload-artifact@v2
       with:

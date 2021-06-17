@@ -35,7 +35,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
 
-    - name: 1️⃣ Initialize Environment
+    - name: ▶️ Initialize Environment
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
@@ -63,7 +63,7 @@ jobs:
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
         
-    - name: 2️⃣ Clone Source Code
+    - name: 1️⃣ Clone Source Code
       env: 
         REPO_URL: https://github.com/coolsnowwolf/lede
         REPO_BRANCH: master
@@ -75,26 +75,28 @@ jobs:
     - name: 💡 Check Point - 1
       run: echo "The [coolsnowwolf/lede] repository has been cloned to the runner."
         
-    - name: 3️⃣ Update & Install Feeds
+    - name: 2️⃣ Update & Install Feeds
       working-directory: ./openwrt
       run: |
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         ./scripts/feeds install -a
+
     - name: 🌟 Check Point - 2
       run: echo "The framework codes are now prepared and ready for customization."    
 
-    - name: 4️⃣ Customize Configuration
+    - name: 3️⃣ Customize Configuration
       env:
         CONFIG_FILE: 'Newifi_D2.config'
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
         cd openwrt && make defconfig
+
     - name: 🔱 Check Point - 3
       run: echo "Customization Accomplished."    
     
-    - name: 5️⃣ Download Packages
+    - name: 4️⃣ Download Packages
       working-directory: ./openwrt
       run: |
         make download -j$(nproc)
@@ -104,7 +106,7 @@ jobs:
     - name: 🚧 Check Point - 4
       run: echo "The source codes have been downloaded and ready for compilation."    
       
-    - name: 6️⃣ Build Firmware - Newifi_D2
+    - name: 5️⃣ Build Firmware - Newifi_D2
       working-directory: ./openwrt
       run: |
         echo -e "$(nproc) thread build."

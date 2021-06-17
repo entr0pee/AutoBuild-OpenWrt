@@ -115,6 +115,14 @@ jobs:
     - name: 🏆 Check Point - 5
       run: echo "The Firmwares have been built."    
 
+    - name : 🚀 Upload Artifact - Fullpack(all ipk)
+      uses: actions/upload-artifact@v2
+      with:
+        name: OpenWrt-Fullpack
+        path: |
+          openwrt/bin
+          '!openwrt/bin/*.bin'
+
   Upload:
     needs: [Build]
     runs-on: ubuntu-18.04
@@ -126,13 +134,5 @@ jobs:
         name: OpenWrt-Firmware
         path: 'openwrt/bin/targets/ramips/mt7621/*.bin'
 
-    - name : 🚀 Upload Artifact - Fullpack(all ipk)
-      uses: actions/upload-artifact@v2
-      with:
-        name: OpenWrt-Fullpack
-        path: |
-          openwrt/bin
-          '!openwrt/bin/*.bin'
-    
     - name: ✌️ Finale
       run: echo "This job's status is ${{ job.status }}."

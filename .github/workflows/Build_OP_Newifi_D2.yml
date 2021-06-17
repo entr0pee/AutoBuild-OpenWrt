@@ -110,11 +110,19 @@ jobs:
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
 
+    - name: 🏆 Check Point - 5
+      run: echo "The Firmwares have been built."    
+
+  Upload:
+    needs: [Build]
+    runs-on: ubuntu-18.04
+
+    steps:
     - name : 🚀 Upload Artifact - Firemware
       uses: actions/upload-artifact@v2
       with:
         name: OpenWrt-Firmware
-        path: openwrt/bin/targets/ramips/mt7621/*.bin
+        path: 'openwrt/bin/targets/ramips/mt7621/*.bin'
 
     - name : 🚀 Upload Artifact - Fullpack(all ipk)
       uses: actions/upload-artifact@v2
@@ -122,7 +130,7 @@ jobs:
         name: OpenWrt-Fullpack
         path: |
           openwrt/bin
-          !openwrt/bin/*.bin
+          '!openwrt/bin/*.bin'
     
     - name: ✌️ Finale
       run: echo "This job's status is ${{ job.status }}."

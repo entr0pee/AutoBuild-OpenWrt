@@ -21,7 +21,7 @@ on:
   #  types: [started]
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-18.04
 
     steps:
@@ -110,7 +110,7 @@ jobs:
         make -j$(nproc) V=s
 
   Upload:
-    needs: [build]
+    needs: [Build]
     runs-on: ubuntu-18.04
 
     steps:

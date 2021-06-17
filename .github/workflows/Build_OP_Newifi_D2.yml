@@ -119,7 +119,9 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: OpenWrt-Fullpack
-        path: openwrt/bin
+        path: |
+          openwrt/bin
+          !openwrt/bin/*.bin
     
     - name: ✌️ Finale
       run: echo "This job's status is ${{ job.status }}."

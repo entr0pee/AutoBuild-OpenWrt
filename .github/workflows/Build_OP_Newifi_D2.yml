@@ -104,7 +104,7 @@ jobs:
         find dl -size -1024c -exec rm -f {} \;
     
     - name: 🚧 Check Point - 4
-      run: echo "The source codes have been downloaded and ready for compilation."    
+      run: echo "The source codes have been downloaded and ready for compiling."    
       
     - name: 5️⃣ Build Firmware - Newifi_D2
       working-directory: ./openwrt

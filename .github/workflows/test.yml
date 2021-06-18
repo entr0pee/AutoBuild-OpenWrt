@@ -115,13 +115,20 @@ jobs:
       with:
         name: OpenWrt-Fullpack
         path: openwrt/bin
-              '!openwrt/bin/*.bin'
+#            '!openwrt/bin/*.bin'
+
+    - name: File Prepare
+      working-directory: ./openwrt
+      run: |
+        cd  openwrt/bin/targets/ramips/mt7621
+        mkdir fw
+        cp *.bin fw
 
     - name : 🚀 Upload Artifact - Firemware
       uses: actions/upload-artifact@v2
       with:
         name: OpenWrt-Firmware
-        path: 'openwrt/bin/targets/ramips/mt7621/*.bin'
+        path: openwrt/bin/targets/ramips/mt7621/fw
 
     - name: ✌️ Finale
       run: echo "This job's status is ${{ job.status }}."

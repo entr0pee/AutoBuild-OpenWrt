@@ -1,7 +1,6 @@
 name: Pratice
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
@@ -21,7 +20,7 @@ jobs:
     
     - name: Compress Firmware
       run: |
-        gzip -9 *sysupgrade?.bin
+        gzip -9 '*sysupgrade?.bin'
 
     - name : 🚀 Upload Artifact - Fullpack(all ipks included)
       uses: actions/upload-artifact@v2

@@ -120,7 +120,7 @@ jobs:
     - name: File Prepare
       working-directory: ./openwrt
       run: |
-        cd  openwrt/bin/targets/ramips/mt7621
+        cd  bin/targets/ramips/mt7621
         mkdir fw
         cp *.bin fw
 

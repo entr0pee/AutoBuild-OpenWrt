@@ -6,7 +6,7 @@ on:
 jobs:
 
   Build:
-    name: Practice
+    name: Generate
     runs-on: ubuntu-18.04
   
     outputs:

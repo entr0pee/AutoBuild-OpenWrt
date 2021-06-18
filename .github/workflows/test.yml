@@ -12,7 +12,7 @@ on:
 
 jobs:
   Build:
-    name: Compiling OpenWrt Firmware - Newifi_D2
+    name: Build Firmware - Newifi_D2
     runs-on: ubuntu-18.04
 
     steps:
@@ -20,9 +20,9 @@ jobs:
     
     - name: 🌈 Starting Point 🚩
       run: |
-        echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-        echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-        echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+        echo "🎉 The job was automatically triggered by a ${{ github_event_name }} event."
+        echo "🐧 This job is now running on a ${{ runner_os }} server hosted by GitHub!"
+        echo "🔎 The name of your branch is ${{ github_ref }} and your repository is ${{ github_repository }}."
 
     - name: ▶️ Initialize Environment
       env:
@@ -105,6 +105,7 @@ jobs:
       run: echo "The Firmwares have been built."
 
   Upload:
+    name: Upload Firmware - Newifi_D2
     needs: Build
     runs-on: ubuntu-18.04
 

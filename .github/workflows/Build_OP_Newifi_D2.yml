@@ -115,24 +115,19 @@ jobs:
     - name: 🏆 Check Point - 5
       run: echo "The Firmwares have been built."    
 
-    - name: Compress Firmware
-      working-directory: ./openwrt
-      run: |
-        gzip -9 bin/targets/ramips/mt7621/*sysupgrade.bin
-
-    - name : 🚀 Upload Artifact - Fullpack(all ipks included)
-      uses: actions/upload-artifact@v2
-      with:
-        name: OpenWrt-Fullpack
-        path: |
-          !openwrt/bin/*.bin
-          !openwrt/bin/*.gz
-
     - name : 🚀 Upload Artifact - Firemware
       uses: actions/upload-artifact@v2
       with:
         name: OpenWrt-Firmware
-        path: openwrt/bin/targets/ramips/mt7621/*.gz
+        path: openwrt/bin/targets/ramips/mt7621/*sysupgrade.bin
+
+    - name : 🚀 Upload Artifact - IPKs
+      uses: actions/upload-artifact@v2
+      with:
+        name: OpenWrt-IPKs
+        path: |
+          openwrt/bin/
+          !openwrt/bin/targets/ramips/mt7621/*.bin
 
     - name: ✌️ Finale
       run: echo "This job's status is ${{ job.status }}."

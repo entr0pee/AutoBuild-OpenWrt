@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-18.04
   
     outputs:
-      TESTFOLDER: ${{ steps.gen.outputs.TESTFOLDER }}
+      prev1: ${{ steps.gen.outputs.up2u }}
   
     steps:
     - uses: actions/checkout@v2
@@ -21,7 +21,7 @@ jobs:
         mkdir testfolder
         cd testfolder
         echo "TESTFOLDER=$PWD" >> $GITHUB_ENV
-        echo "::set-output name=TESTFOLDER::$(echo $PWD)"
+        echo "::set-output name=up2u::$(echo $PWD)"
         touch testfile1 testfile2.tmp openwrt-initramfs.bin openwrt-sysupgrade1.bin openwrt-sysupgrade2.bin
     
     - name: Compress Firmware
@@ -37,7 +37,7 @@ jobs:
     steps:
     - name: Restore Variables
       run: |
-        echo "TESTFOLDER=$(echo '${{needs.Build.outputs.TESTFOLDER}}')" >> $GITHUB_ENV
+        echo "TESTFOLDER=$(echo '${{needs.Build.outputs.prev1}}')" >> $GITHUB_ENV
     
     - name : 🚀 Upload Artifact - Fullpack
       uses: actions/upload-artifact@v2

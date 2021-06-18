@@ -6,7 +6,7 @@ on:
 jobs:
 
   Build:
-    name: Generate
+    name: Generate Firmware
     runs-on: ubuntu-18.04
   
     outputs:
@@ -21,6 +21,7 @@ jobs:
         mkdir testfolder
         cd testfolder
         echo "TESTFOLDER=$PWD" >> $GITHUB_ENV
+        echo "::set-output name=TESTFOLDER::$(echo $PWD)"
         touch testfile1 testfile2.tmp openwrt-initramfs.bin openwrt-sysupgrade1.bin openwrt-sysupgrade2.bin
     
     - name: Compress Firmware

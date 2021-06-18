@@ -18,7 +18,7 @@ jobs:
     - name: Generate files
       id: gen
       run: |
-#        sudo apt update && apt install -y gzip
+        sudo apt update && apt install -y gzip
         mkdir testfolder
         cd testfolder
         echo "TESTFOLDER=$PWD" >> $GITHUB_ENV

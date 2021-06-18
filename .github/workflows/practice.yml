@@ -17,29 +17,43 @@ jobs:
         apt update && apt install -y gzip
         mkdir testfolder
         cd testfolder
-        touch testfile1 openwrt-initramfs.bin testfile2.tmp openwrt-sysupgrade1.bin openwrt-sysupgrade2.bin
+        touch testfile1 testfile2.tmp openwrt-initramfs.bin openwrt-sysupgrade1.bin openwrt-sysupgrade2.bin
     
     - name: Compress Firmware
       run: |
         cd testfolder
         gzip -9 *sysupgrade?.bin
-
-    - name : 🚀 Upload Artifact - Fullpack(all ipks included)
+        
+    - name : 🚀 Upload Artifact - Fullpack
       uses: actions/upload-artifact@v2
       with:
-        name: OpenWrt-Fullpack
+        name: Prac-All
         path: |
           testfolder/
-          !testfolder/*.bin
-          !testfolder/*.gz
 
-    - name : 🚀 Upload Artifact - Firemware
+    - name : 🚀 Upload Artifact - Fullpack
       uses: actions/upload-artifact@v2
       with:
-        name: OpenWrt-Firmware
+        name: Prac-gz
         path: |
-          testfolder/
           testfolder/*.gz
+
+    - name : 🚀 Upload Artifact - others
+      uses: actions/upload-artifact@v2
+      with:
+        name: Prac-gz&bin
+        path: |
+          testfolder/*.gz
+          testfolder/*.bin
+
+    - name : 🚀 Upload Artifact - others
+      uses: actions/upload-artifact@v2
+      with:
+        name: Prac-others
+        path: |
+          testfolder/
+          !testfolder/*.gz
+          !testfolder/*.bin
 
     - name: ✌️ Finale
       run: echo "This job's status is ${{ job.status }}."

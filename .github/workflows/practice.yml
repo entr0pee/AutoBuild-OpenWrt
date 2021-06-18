@@ -14,19 +14,22 @@ jobs:
     
     - name: Generate files
       run: |
+        apt update && apt install -y gzip
         mkdir testfolder
         cd testfolder
         touch testfile1 openwrt-initramfs.bin testfile2.tmp openwrt-sysupgrade1.bin openwrt-sysupgrade2.bin
     
     - name: Compress Firmware
       run: |
-        gzip -9 '*sysupgrade?.bin'
+        cd testfolder
+        gzip -9 *sysupgrade?.bin
 
     - name : 🚀 Upload Artifact - Fullpack(all ipks included)
       uses: actions/upload-artifact@v2
       with:
         name: OpenWrt-Fullpack
         path: |
+          testfolder/
           !testfolder/*.bin
           !testfolder/*.gz
 
@@ -34,7 +37,9 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: OpenWrt-Firmware
-        path: testfolder/*.gz
+        path: |
+          testfolder/
+          testfolder/*.gz
 
     - name: ✌️ Finale
       run: echo "This job's status is ${{ job.status }}."

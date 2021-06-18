@@ -12,6 +12,7 @@ on:
 
 jobs:
   Build:
+    name: Compiling OpenWrt Firmware - Newifi_D2
     runs-on: ubuntu-18.04
 
     steps:

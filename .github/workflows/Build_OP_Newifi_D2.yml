@@ -119,20 +119,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: OpenWrt-Fullpack
-        path: |
-          openwrt/bin
-          '!openwrt/bin/*.bin'
-
-  Upload:
-    needs: [Build]
-    runs-on: ubuntu-18.04
-
-    steps:
-    - name : 🚀 Upload Artifact - Firemware
-      uses: actions/upload-artifact@v2
-      with:
-        name: OpenWrt-Firmware
-        path: 'openwrt/bin/targets/ramips/mt7621/*.bin'
+        path: openwrt/bin
 
     - name: ✌️ Finale
       run: echo "This job's status is ${{ job.status }}."

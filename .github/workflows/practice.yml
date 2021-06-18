@@ -5,7 +5,7 @@ on:
 
 jobs:
 
-  build:
+  Build:
     name: Practice
     runs-on: ubuntu-18.04
 
@@ -23,7 +23,13 @@ jobs:
       run: |
         cd testfolder
         gzip -9 *sysupgrade?.bin
-        
+
+  Upload:
+    name: Upload Firmware - Newifi_D2
+    needs: Build
+    runs-on: ubuntu-18.04
+
+    steps:
     - name : 🚀 Upload Artifact - Fullpack
       uses: actions/upload-artifact@v2
       with:

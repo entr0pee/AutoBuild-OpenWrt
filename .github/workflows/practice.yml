@@ -25,7 +25,7 @@ jobs:
         gzip -9 *sysupgrade?.bin
 
   Upload:
-    name: Upload Firmware - Newifi_D2
+    name: Upload Firmware
     needs: Build
     runs-on: ubuntu-18.04
 
@@ -37,14 +37,14 @@ jobs:
         path: |
           testfolder/
 
-    - name : 🚀 Upload Artifact - Fullpack
+    - name : 🚀 Upload Artifact - gz
       uses: actions/upload-artifact@v2
       with:
         name: Prac-gz
         path: |
           testfolder/*.gz
 
-    - name : 🚀 Upload Artifact - others
+    - name : 🚀 Upload Artifact - gz&bin
       uses: actions/upload-artifact@v2
       with:
         name: Prac-gz&bin

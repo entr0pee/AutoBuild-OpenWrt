@@ -1,0 +1,127 @@
+#=================================================
+# Description: Build OpenWrt using GitHub Actions
+# Lisence: MIT
+# Author: eSirPlayground
+# Youtube Channel: https://goo.gl/fvkdwm 
+#=================================================
+
+name: Build_Newifi_D2
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  Build:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: 🌈 Starting Point 🚩
+      run: |
+        echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+        echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+        echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+    - name: ▶️ Initialize Environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        docker rmi `docker images -q`
+        echo "Deleting files, please wait ..."
+        sudo rm -rf \
+          /usr/share/dotnet \
+          /etc/mysql \
+          /etc/php
+        sudo -E apt-get -y purge \
+          azure-cli \
+          ghc* \
+          zulu* \
+          hhvm \
+          llvm* \
+          firefox \
+          google* \
+          dotnet* \
+          powershell \
+          openjdk* \
+          mysql* \
+          php*
+        sudo -E apt-get update
+        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev patch python3 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex node-uglify git gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx-ucl libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget curl swig rsync
+        sudo -E apt-get -y autoremove --purge
+        sudo -E apt-get clean
+        
+    - name: 1️⃣ Clone Source Code
+      env: 
+        REPO_URL: https://github.com/coolsnowwolf/lede
+        REPO_BRANCH: master
+      run: |
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+        cd openwrt
+        echo "src-git ssrp https://github.com/fw876/helloworld.git" >> ./feeds.conf.default
+        
+    - name: 💡 Check Point - 1
+      run: echo "The [coolsnowwolf/lede] repository has been cloned to the runner."
+        
+    - name: 2️⃣ Update & Install Feeds
+      working-directory: ./openwrt
+      run: |
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        ./scripts/feeds install -a
+
+    - name: 🌟 Check Point - 2
+      run: echo "The framework codes are now prepared and ready for customization."    
+
+    - name: 3️⃣ Customize Configuration
+      env:
+        CONFIG_FILE: 'Newifi_D2.config'
+      run: |
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        chmod +x ./customize.sh && ./customize.sh
+        cd openwrt && make defconfig
+
+    - name: 🔱 Check Point - 3
+      run: echo "Customization Accomplished."    
+    
+    - name: 4️⃣ Download Packages
+      working-directory: ./openwrt
+      run: |
+        make download -j$(nproc)
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+    
+    - name: 🚧 Check Point - 4
+      run: echo "The source codes have been downloaded and ready for compiling."    
+      
+    - name: 5️⃣ Build Firmware - Newifi_D2
+      working-directory: ./openwrt
+      run: |
+        echo -e "$(nproc) thread build."
+        make -j$(nproc) V=s
+
+    - name: 🏆 Check Point - 5
+      run: echo "The Firmwares have been built."
+
+  Upload:
+    needs: Build
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name : 🚀 Upload Artifact - Fullpack(all ipks included)
+      uses: actions/upload-artifact@v2
+      with:
+        name: OpenWrt-Fullpack
+        path: openwrt/bin
+              '!openwrt/bin/*.bin'
+
+    - name : 🚀 Upload Artifact - Firemware
+      uses: actions/upload-artifact@v2
+      with:
+        name: OpenWrt-Firmware
+        path: 'openwrt/bin/targets/ramips/mt7621/*.bin'
+
+    - name: ✌️ Finale
+      run: echo "This job's status is ${{ job.status }}."

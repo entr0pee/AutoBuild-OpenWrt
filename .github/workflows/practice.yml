@@ -1,0 +1,41 @@
+name: Pratice
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    name: Practice
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Generate files
+      run: |
+        mkdir testfolder
+        cd testfolder
+        touch testfile1 openwrt-initramfs.bin testfile2.tmp openwrt-sysupgrade1.bin openwrt-sysupgrade2.bin
+    
+    - name: Compress Firmware
+      run: |
+        gzip -9 *sysupgrade?.bin
+
+    - name : 🚀 Upload Artifact - Fullpack(all ipks included)
+      uses: actions/upload-artifact@v2
+      with:
+        name: OpenWrt-Fullpack
+        path: |
+          !testfolder/*.bin
+          !testfolder/*.gz
+
+    - name : 🚀 Upload Artifact - Firemware
+      uses: actions/upload-artifact@v2
+      with:
+        name: OpenWrt-Firmware
+        path: testfolder/*.gz
+
+    - name: ✌️ Finale
+      run: echo "This job's status is ${{ job.status }}."

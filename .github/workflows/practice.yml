@@ -8,15 +8,20 @@ jobs:
   Build:
     name: Practice
     runs-on: ubuntu-18.04
-
+  
+    outputs:
+      TESTFOLDER: ${{ steps.generate.outputs.TESTFOLDER }}
+  
     steps:
     - uses: actions/checkout@v2
     
     - name: Generate files
+      id: generate
       run: |
         apt update && apt install -y gzip
         mkdir testfolder
         cd testfolder
+        echo "TESTFOLDER=$PWD" >> $GITHUB_ENV
         touch testfile1 testfile2.tmp openwrt-initramfs.bin openwrt-sysupgrade1.bin openwrt-sysupgrade2.bin
     
     - name: Compress Firmware
@@ -30,6 +35,10 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
+    - name: Restore Variables
+      run: |
+        echo "TESTFOLDER=$(echo '${{needs.Build.outputs.TESTFOLDER}}')" >> $GITHUB_ENV
+    
     - name : 🚀 Upload Artifact - Fullpack
       uses: actions/upload-artifact@v2
       with:
